@@ -1,6 +1,6 @@
 const express = require('express')
 const logFunc = require('./midleware/logger')
-const port = 8000
+const port = process.env.PORT || 8000
 const ConnectModule = require('./module/connect&feed')
 const app = express()
 
