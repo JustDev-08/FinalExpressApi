@@ -13,7 +13,7 @@ connectRount.post('/feed', (req, res) => {
     const userData = req.body
     const client = mqtt.connect(userData.url, option1)
     client.on('connect', () => {
-        client.publish(userData.topic + userData.password, userData.control)
+      client.publish(userData.topic + userData.password, userData.control +"/"+ userData.ml)
         const rev = `/feed/board/pass/${userData.password}/callback`
         client.subscribe(rev, () => {
             client.on('message', (topic, mess) => {
