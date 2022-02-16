@@ -10,6 +10,8 @@ const option1 = {
 }
 
 connectRount.post('/feed', (req, res) => {
+    try {
+        
     const userData = req.body
     const client = mqtt.connect(userData.url, option1)
     client.on('connect', () => {
@@ -40,39 +42,52 @@ connectRount.post('/feed', (req, res) => {
             client.end()
             res.end()
         })
+
+    }  
+catch {
+    res.json({
+        status : "Error"
     })
+}  })
 
     connectRount.post('/can', async (req, res) => {
-        const userData = req.body
+        try {
 
-        const client = mqtt.connect(userData.url, option1)
-        client.on('connect', () => {
-            console.log('Connected');
-            res.json({
-                'CanConnect': true
-            })
-            client.end()
-            res.end()
-            clearTimeout(delay)
-        })
-        client.on('error', () => {
-            console.log('err');
-            res.json({
-                'CanConnect': false
-            })
-            client.end()
-            res.end()
-            clearTimeout(delay)
-        })
-        const delay = setTimeout(()=>{
-            res.json({
-                'CanConnect':false
-            })
-            client.end()
-            res.end()
-        },10000)
+            const userData = req.body
 
-
+            const client = mqtt.connect(userData.url, option1)
+            client.on('connect', () => {
+                console.log('Connected');
+                res.json({
+                    'CanConnect': true
+                })
+                client.end()
+                res.end()
+                clearTimeout(delay)
+            })
+            client.on('error', () => {
+                console.log('err');
+                res.json({
+                    'CanConnect': false
+                })
+                client.end()
+                res.end()
+                clearTimeout(delay)
+            })
+            const delay = setTimeout(()=>{
+                res.json({
+                    'CanConnect':false
+                })
+                client.end()
+                res.end()
+            },10000)
+    
+    
+        }catch{
+            res.json({
+                status:"Error"
+            })
+        }
     })
 
     module.exports = connectRount
